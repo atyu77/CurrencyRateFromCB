@@ -3,7 +3,7 @@ There can be only one course per date.
 From the Central Bank of Russia website course downloading in temporary table named course then start stored procedure dbo.Course_Insert.
 Script logs are stored in the output.log
 
-Закачка курсов с сайта ЦБ с помощью АПИ (http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL) в АБС Диасофт
-За одну дату может быть только один курс. 
-Скачивание курсов происходит в буферную таблицу course и затем запускается процедура по загрузке курсов dbo.Course_Insert
-Логи работы скрипта хранятся в файле output.log
+Р—Р°РєР°С‡РєР° РєСѓСЂСЃРѕРІ СЃ СЃР°Р№С‚Р° Р¦Р‘ СЃ РїРѕРјРѕС‰СЊСЋ РђРџР (http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL) РІ РђР‘РЎ Р”РёР°СЃРѕС„С‚
+Р—Р° РѕРґРЅСѓ РґР°С‚Сѓ РјРѕР¶РµС‚ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РѕРґРёРЅ РєСѓСЂСЃ. 
+РЎРєР°С‡РёРІР°РЅРёРµ РєСѓСЂСЃРѕРІ РїСЂРѕРёСЃС…РѕРґРёС‚ РІ Р±СѓС„РµСЂРЅСѓСЋ С‚Р°Р±Р»РёС†Сѓ course Рё Р·Р°С‚РµРј Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ РїСЂРѕС†РµРґСѓСЂР° РїРѕ Р·Р°РіСЂСѓР·РєРµ РєСѓСЂСЃРѕРІ dbo.Course_Insert
+Р›РѕРіРё СЂР°Р±РѕС‚С‹ СЃРєСЂРёРїС‚Р° С…СЂР°РЅСЏС‚СЃСЏ РІ С„Р°Р№Р»Рµ output.log
