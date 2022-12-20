@@ -4,10 +4,12 @@ import os
 import sys
 import time
 import zeep
+import exceptions
 
 from datetime import datetime
 from datetime import timedelta
 from sys import stdout
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +26,8 @@ def get_api_answer(on_date):
     except Exception as error:
         message = 'Ошибка при попытке вызвать сервис: ' + str(error)
         logger.error(message)
-    #result = Client.service.GetCursOnDate(on_date)["_value_1"]["_value_1"]
-    result = Client.service.GetCursOnDate(on_date)
-    return (result)
+        raise WrongAPIAnswer('Ответ сервера не является успешным')
+    return (Client.service.GetCursOnDate(on_date))
 
 
 def load_to_database(result, on_date):
@@ -52,7 +53,8 @@ def load_to_database(result, on_date):
                   '""" + str(res["ValuteCursOnDate"]["Vcurs"]) + """',
                   '"""+str(on_date)+"""'
                   """
-            logger.info('Вставляем данные во временную таблицу по валюте ' + str(res["ValuteCursOnDate"]["VchCode"]))
+            logger.info('Вставляем данные во временную таблицу по валюте ' +
+                        str(res["ValuteCursOnDate"]["VchCode"]))
             cursor.execute(SQL)
             cursor.connection.commit()
         except Exception as error:
@@ -81,12 +83,14 @@ def load_to_database(result, on_date):
           select @RetVal
           """
     try:
-        logger.info('Запускаем проверку существования курса за предыдущую дату')
+        logger.info('Запускаем проверку существования ' +
+                    'курса за предыдущую дату')
         rows1 = cursor.execute(SQL).fetchall()
     except Exception as error:
         logger.error(str(error))
     if rows1[0][0] == 0:
-        logger.info('Такого курса за предыдущую дату нет, записываем курс в текущую дату')
+        logger.info('Такого курса за предыдущую дату ' +
+                    'нет, записываем курс в текущую дату')
         SQL = """
              SET NOCOUNT ON;
              SET ANSI_WARNINGS OFF;
@@ -105,9 +109,11 @@ def load_to_database(result, on_date):
         if rows[0][0] == 0:
             logger.info('Запись успешно произведена')
         if rows[0][0] < 0:
-            logger.error('Ошибка записи курсов. Курс уже существует или день закрыт')
+            logger.error('Ошибка записи курсов. ' +
+                         'Курс уже существует или день закрыт')
     else:
-        logger.info('Такой курс уже есть за текущую(предыдущую) дату.Запись не произведена')
+        logger.info('Такой курс уже есть за текущую(предыдущую) ' +
+                    'дату.Запись не произведена')
 
 
 def main():
@@ -115,10 +121,9 @@ def main():
         on_date = datetime.now().date() + timedelta(days=1)
         try:
             result = get_api_answer(on_date)
-            print(result)
             if result:
                 course = result["_value_1"]["_value_1"]
-                load_to_database(course, on_date)                
+                load_to_database(course, on_date)
         except Exception as error:
             message = 'Вызов сервиса завершен с ошибкой: ' + str(error)
             logger.error(message)
