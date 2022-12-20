@@ -32,10 +32,10 @@ def get_api_answer(on_date):
 
 def load_to_database(result, on_date):
     conn = pyodbc.connect("Driver={SQL Server};"
-                          "Server=ABS13;"
-                          "Database=Alorbanktest;"
-                          "UID=dca;"
-                          "PWD=123456"
+                          "Server=Server;"
+                          "Database=Database;"
+                          "UID=user;"
+                          "PWD=password"
                           )
     try:
         logger.info('Подключаемся к БД')
